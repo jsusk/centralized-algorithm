@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
             printf("\n ERROR CONNECT: no connect para pedir imagen.");
             sleep(1);
         } else {
-            strcpy(peticion, "get_imagen");
+            strcpy(peticion, "get_imagen0");
             if (send(sock, peticion, strlen(peticion), 0) == -1)
                 printf("ERROR SEND: Error al enviar solicitud.\n");
             //COMENZANDO A RECIBIR IMAGEN

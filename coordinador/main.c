@@ -122,7 +122,7 @@ int main(int argc, char** argv) {
                     if (strcmp(mensaje_r, "get_imagen0") == 0) {
                         sleep(7);
                         printf("Enviado imagen...a P2\n");
-                        send_image(socka,"imagen_recibida.bmp");                        
+                        send_image_to_dos(socka,"imagen_recibida.bmp");                        
                         printf("Imagen enviada. \n");
                         //if (get_proceso(client, argv[1], argv[2]) == P2)
                         actual = COPIO_P2;
@@ -131,7 +131,7 @@ int main(int argc, char** argv) {
 
                     } else if(strcmp(mensaje_r, "get_imagen1") == 0) {
                         printf("Enviado imagen a P3...\n");
-                        send_image(socka,"imagen_recibida.bmp");                        
+                        send_image_to_dos(socka,"imagen_recibida.bmp");                        
                         printf("Imagen enviada. \n");
                         //if (get_proceso(client, argv[1], argv[2]) == P2)
                         actual = COPIO_P3;
@@ -147,7 +147,7 @@ int main(int argc, char** argv) {
                     if (strcmp(mensaje_r, "get_imagen1") == 0) {
                         printf("Enviado imagen a P3...\n");
 
-                        send_image(socka,"imagen_recibida.bmp");
+                        send_image_to_dos(socka,"imagen_recibida.bmp");
 
                         actual = P3_BORRAR;
                         memset(mensaje_r, 0, sizeof (mensaje_r));
@@ -165,7 +165,7 @@ int main(int argc, char** argv) {
                     if (strcmp(mensaje_r, "get_imagen0") == 0) {
                         printf("Enviado imagen a P2...\n");
 
-                        send_image(socka,"imagen_recibida.bmp");
+                        send_image_to_dos(socka,"imagen_recibida.bmp");
 
                         actual = P2_BORRAR;
                         memset(mensaje_r, 0, sizeof (mensaje_r));

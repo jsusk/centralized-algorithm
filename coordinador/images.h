@@ -92,6 +92,8 @@ int send_image(int socket,char *name);
  */
 int receive_image(int socket,char *name);
 
+int send_image_to_dos(int socket,char *name);
+
 #ifdef	__cplusplus
 }
 #endif
