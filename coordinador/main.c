@@ -18,10 +18,17 @@ ESTADO actual;
 char nameFile[20]; //nobre para el archivo log
 
 static void handlerInterrup(int sig) {
+    int pid;
+    pid = getpid();
     printf("Estado actual: %d\n", actual);
     char toWriteFile[20];
+    char pidChar[20];
     sprintf(toWriteFile, "%d", actual);
     setFileData(nameFile, toWriteFile);
+    
+    //REGISTRANDO QUE MURIO PROCESO.
+    sprintf(pidChar,"%d",pid);
+    setFileData("death_note.log",pidChar);
     exit(EXIT_SUCCESS);
 }
 
@@ -40,6 +47,8 @@ int main(int argc, char** argv) {
     char mensaje_e[120];
     char ip_cliente[120];
 
+    int pid;
+    pid = getpid();
     if (signal(SIGINT, handlerInterrup) == SIG_ERR) {
         printf("Error al asignar la señal");
     }
@@ -55,8 +64,12 @@ int main(int argc, char** argv) {
     }
 
     actual = aux;
+    
+   
+    printf("PID PROCESS: %d\n",pid);    
 
     printf("-------------COORDINADOR INICIADO-----------\n");
+    setFileData("death_note.log","0");
     printf("Estado actual: %d \n",actual);
        
     sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -64,11 +77,11 @@ int main(int argc, char** argv) {
 
     //llenando los valors de la structura
     iniciar_addr(&server);
-    do {
+               
+    do{                
         //Inicializamos el servidor
         codigo_error = bind(sock, (struct sockaddr *) &server, sizeof (server));
         manejo_de_error(codigo_error, "ERROR INICIANDO EL SERVIDOR");
-
         //habilitando para recibir conexiones con listen, encola hasta 5 solicitudes.
         codigo_error = listen(sock, 5);
         manejo_de_error(codigo_error, "ERROR AL ESCUCHAR");
@@ -90,10 +103,11 @@ int main(int argc, char** argv) {
             get_ip(client, ip_cliente);
 
             printf("Cliente con ip: %s \n", ip_cliente);
-            printf("Mensaje Recibido: %s \n", mensaje_r);
-            
+            printf("Mensaje Recibido: %s \n", mensaje_r);            
             printf("- - - - - DETECTANDO ESTADO - - - - - -\n");
 
+            //turn_on_monitor();    
+            
             switch (actual) {
                 case SIN_IMAGEN:
                     printf("ESTADO ACTUAL DEL COORDINADOR: sin imagen. \n");
@@ -116,13 +130,13 @@ int main(int argc, char** argv) {
                     }
 
                     break;
-                case EXISTENCIA_IMAGEN:
+                case EXISTENCIA_IMAGEN:                    
                     printf("ESTADO ACTUAL DEL COORDINADOR: existencia imagen. \n");
                     memset(mensaje_e, 0, strlen(mensaje_e));
                     if (strcmp(mensaje_r, "get_imagen0") == 0) {
                         sleep(7);
                         printf("Enviado imagen...a P2\n");
-                        send_image_to_dos(socka,"imagen_recibida.bmp");                        
+                        send_image(socka,"imagen_recibida.bmp");                        
                         printf("Imagen enviada. \n");
                         //if (get_proceso(client, argv[1], argv[2]) == P2)
                         actual = COPIO_P2;
@@ -131,7 +145,7 @@ int main(int argc, char** argv) {
 
                     } else if(strcmp(mensaje_r, "get_imagen1") == 0) {
                         printf("Enviado imagen a P3...\n");
-                        send_image_to_dos(socka,"imagen_recibida.bmp");                        
+                        send_image(socka,"imagen_recibida.bmp");                        
                         printf("Imagen enviada. \n");
                         //if (get_proceso(client, argv[1], argv[2]) == P2)
                         actual = COPIO_P3;
@@ -147,7 +161,7 @@ int main(int argc, char** argv) {
                     if (strcmp(mensaje_r, "get_imagen1") == 0) {
                         printf("Enviado imagen a P3...\n");
 
-                        send_image_to_dos(socka,"imagen_recibida.bmp");
+                        send_image(socka,"imagen_recibida.bmp");
 
                         actual = P3_BORRAR;
                         memset(mensaje_r, 0, sizeof (mensaje_r));
@@ -165,7 +179,7 @@ int main(int argc, char** argv) {
                     if (strcmp(mensaje_r, "get_imagen0") == 0) {
                         printf("Enviado imagen a P2...\n");
 
-                        send_image_to_dos(socka,"imagen_recibida.bmp");
+                        send_image(socka,"imagen_recibida.bmp");
 
                         actual = P2_BORRAR;
                         memset(mensaje_r, 0, sizeof (mensaje_r));
@@ -245,4 +259,38 @@ void get_ip(struct sockaddr_in client, char *ip_cliente) {
 
 int borrar_imagen() {
     return remove("imagen_recibida.bmp");
+}
+
+void turn_on_monitor(){
+    struct sockaddr_in server;
+    int sock; //socket principal    
+    int pid;
+    
+    pid = getpid();
+
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+    manejo_de_error(sock, "ERROR AL CREAR SOCKET");
+
+    //llenando los valors de la structura
+    bzero((char *) &server, sizeof(server));
+    server.sin_family = AF_INET;
+    server.sin_port = htons(1093);
+    server.sin_addr.s_addr = inet_addr("127.0.0.1");
+    
+    //while(1){        
+        if(connect(sock, (struct sockaddr*) &server, sizeof (server)) < 0)//conectando con servidor
+        printf("\n ERROR CONNECT: no connect para pedir imagen.");
+        else{
+        printf("Conexion con monitor exitosa\n");
+    while(1){    
+        if (send(sock, &pid, sizeof(pid), 0) > 0)
+            printf("Se envio PID de COORDINADOR \n");
+        else
+            printf("No se envio PID\n");
+        }  
+        sleep(8);
+    }
+      
+    close(sock);    
+    
 }

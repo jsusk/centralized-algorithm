@@ -12,33 +12,35 @@ void getFileData(char *nameFile, char *dataRead);
 
 int main(int argc, char** argv) {
 
-	char dataFile[20];
-	int aux;
+	char dataFile[10];
+	int aux=0;
+	int proceso;
 
 	while(1){
+
 		
-		printf("Monitoreando a COORDINADOR\n");
-		getFileData("death_note.log", dataFile);
-		
+		printf("Leyendo estado de proceso. .. .\n");		
+		getFileData("death_note_p1.log", dataFile);
 
 		if (strlen(dataFile) > 0) {
 			if (strcmp(dataFile, "error") < 0) {
 			    aux = atoi(dataFile);
+			    printf("Aux: %d\n",aux);
 			}
 		}
 
+
 		if(aux!=0){
-			printf("Coordinador fallido. Procediendo a reactivar. PID: %d\n",aux);
-			sleep(150);
-			system("./acentralizadocordinador");
-		
+			printf("P1 fallido. Procediendo a reactivar. PID: %d\n",aux);	
+			sleep(5);		
+			system("./proceso_uno");					
+			exit(1);			
 		}
 		sleep(10);
 	}
-
 }
 
-void getFileData(char *nameFile, char *dataRead) {
+void getFileData(char *nameFile, char *dataRead){
     int inputFd, openFlags;
     mode_t filePerms;
     //memset(dataRead,0,sizeof(dataRead));

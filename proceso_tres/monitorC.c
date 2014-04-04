@@ -16,10 +16,8 @@ int main(int argc, char** argv) {
 	int aux;
 
 	while(1){
-		
-		printf("Monitoreando a COORDINADOR\n");
-		getFileData("death_note.log", dataFile);
-		
+		printf("Monitoreando al proceso TRES\n");
+		getFileData("death_note_p3.log", dataFile);
 
 		if (strlen(dataFile) > 0) {
 			if (strcmp(dataFile, "error") < 0) {
@@ -28,10 +26,9 @@ int main(int argc, char** argv) {
 		}
 
 		if(aux!=0){
-			printf("Coordinador fallido. Procediendo a reactivar. PID: %d\n",aux);
-			sleep(150);
-			system("./acentralizadocordinador");
-		
+			printf("P3 fallido. Procediendo a reactivar. PID: %d\n",aux);
+			sleep(6);
+			system("./proceso_tres");
 		}
 		sleep(10);
 	}

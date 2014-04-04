@@ -12,16 +12,35 @@
 
 /*
  * PROCESO UNO.
+ * 
  */
+int actual;
+char nameFile[20]; //nobre para el archivo log
+
+static void handlerInterrup(int sig) {
+    printf("Estado actual: %d\n", actual);
+    char toWriteFile[20];
+    sprintf(toWriteFile, "%d", actual);
+    setFileData(nameFile, toWriteFile);
+    //REGISTRANDO QUE MURIO PROCESO.
+    int pid;
+    pid = getpid();        
+    char pidChar[20];        
+    sprintf(pidChar,"%d",pid);
+    setFileData("death_note_p1.log",pidChar);
+    exit(EXIT_SUCCESS);
+}
 int main(int argc, char** argv) {
 
     struct sockaddr_in direccion;
 
     char peticion[220];
     char respuesta[220];
+    char dataFile[20]; //datos a escribir
 
     int sock, conecta, envio_peticion, mensaje_r;
     int contadorImagen = 0;
+    int reconecSocket = 0;
 
     sock = socket(AF_INET, SOCK_STREAM, 0);
     manejo_de_error(sock, "ERROR AL CREAR SOCKET");
@@ -29,12 +48,38 @@ int main(int argc, char** argv) {
 
     //llenando los valors de la structura
     iniciar_addr(&direccion);
-    printf("PROCESO UNO. INICIADO. - - - - -\n");
+    
+    if (signal(SIGINT, handlerInterrup) == SIG_ERR) {
+        printf("Error al asignar la señal");
+    }
 
+    int aux = 0; //variable donde se almacenará el valor del archivo contador.log
+    strcpy(nameFile, "coordinador.log");
+    getFileData(nameFile, dataFile);
+
+    if (strlen(dataFile) > 0) {
+        if (strcmp(dataFile, "error") < 0) {
+            aux = atoi(dataFile);
+        }
+    }
+
+    actual = aux;
+    contadorImagen = actual;
+    
+    printf("PROCESO UNO. INICIADO. - - - - -\n");
+    setFileData("death_note_p1.log","0");
     
     int intento=0;
     //ciclo para mandar más imagenes.
     while(contadorImagen < 4){
+        
+        if(reconecSocket == 1){
+            sock = socket(AF_INET, SOCK_STREAM, 0);
+            manejo_de_error(sock, "ERROR AL CREAR SOCKET");
+            //llenando los valors de la structura
+            iniciar_addr(&direccion);      
+            reconecSocket = 0;
+        }
         
         printf("Intento de conexion: %d\n",intento);
         intento++;
@@ -42,6 +87,13 @@ int main(int argc, char** argv) {
         manejo_de_error(conecta, "ERROR CONNECT: no hubo conexion.");
         if(conecta>0)
             printf("Conexion hecha.\n");
+        else{
+            close(conecta);
+            //close(sock);
+            reconecSocket = 1;
+            sleep(10);
+        }
+            
         
         //mandando mensaje a coordinador.
         strcpy(peticion, "transportar_imagen?");
@@ -82,7 +134,7 @@ int main(int argc, char** argv) {
                     contadorImagen++;
                 break;                    
             }
-
+            actual = contadorImagen;
             
 
         }
@@ -101,3 +153,4 @@ int main(int argc, char** argv) {
 
     return (EXIT_SUCCESS);
 }
+

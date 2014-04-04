@@ -28,6 +28,7 @@ extern "C" {
 
 void recibir_imagen(int socka); 
 void get_ip(struct sockaddr_in client,char *ip_cliente);
+void turn_on_monitor();
 
 typedef enum {SIN_IMAGEN,EXISTENCIA_IMAGEN, COPIO_P3, COPIO_P2, P2_BORRAR, P3_BORRAR} ESTADO;
 

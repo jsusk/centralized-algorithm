@@ -16,6 +16,7 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>main.c</itemPath>
+      <itemPath>monitorC.c</itemPath>
       <itemPath>socket_lib.c</itemPath>
       <itemPath>utilidades.c</itemPath>
     </logicalFolder>
@@ -46,6 +47,8 @@
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="main.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="monitorC.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="socket_lib.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -79,6 +82,8 @@
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="main.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="monitorC.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="socket_lib.c" ex="false" tool="0" flavor2="0">
       </item>
