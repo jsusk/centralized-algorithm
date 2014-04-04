@@ -14,7 +14,6 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>main.c</itemPath>
-      <itemPath>monitorC.c</itemPath>
       <itemPath>utilidades.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -43,8 +42,6 @@
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="monitorC.c" ex="false" tool="0" flavor2="0">
-      </item>
       <item path="utilidades.c" ex="false" tool="0" flavor2="0">
       </item>
     </conf>
@@ -71,8 +68,6 @@
       <item path="../coordinador/images.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="monitorC.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="utilidades.c" ex="false" tool="0" flavor2="0">
       </item>

@@ -16,7 +16,6 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>main.c</itemPath>
-      <itemPath>../proceso_dos/monitorC.c</itemPath>
       <itemPath>socket_lib.c</itemPath>
       <itemPath>../proceso_dos/utilidades.c</itemPath>
     </logicalFolder>
@@ -43,8 +42,6 @@
       <compileType>
       </compileType>
       <item path="../coordinador/images.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../proceso_dos/monitorC.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="../proceso_dos/utilidades.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -78,8 +75,6 @@
         </asmTool>
       </compileType>
       <item path="../coordinador/images.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="../proceso_dos/monitorC.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="../proceso_dos/utilidades.c" ex="false" tool="0" flavor2="0">
       </item>

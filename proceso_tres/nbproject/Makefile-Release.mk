@@ -35,7 +35,6 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/_ext/421435483/monitorC.o \
 	${OBJECTDIR}/_ext/421435483/utilidades.o \
 	${OBJECTDIR}/main.o
 
@@ -63,11 +62,6 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/proceso_tres: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/proceso_tres ${OBJECTFILES} ${LDLIBSOPTIONS}
-
-${OBJECTDIR}/_ext/421435483/monitorC.o: ../proceso_dos/monitorC.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/421435483
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/421435483/monitorC.o ../proceso_dos/monitorC.c
 
 ${OBJECTDIR}/_ext/421435483/utilidades.o: ../proceso_dos/utilidades.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/421435483

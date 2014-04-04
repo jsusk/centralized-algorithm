@@ -77,6 +77,7 @@ int main(int argc, char** argv) {
 
     //llenando los valors de la structura
     iniciar_addr(&server);
+    server.sin_addr.s_addr = INADDR_ANY;
                
     do{                
         //Inicializamos el servidor

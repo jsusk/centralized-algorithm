@@ -40,6 +40,10 @@ static void handlerInterrup(int sig) {
 }
 
 int main(int argc, char** argv) {
+    if (!(argc > 1)) {
+        printf("Modo de uso: %s uri",argv[0]);
+        return(EXIT_FAILURE);
+    }
     struct sockaddr_in direccion;
     char bufferr[1024];
     char peticion[220];
@@ -84,7 +88,7 @@ int main(int argc, char** argv) {
 
         direccion.sin_family = AF_INET;
         direccion.sin_port = htons(3393);
-        direccion.sin_addr.s_addr = inet_addr("127.0.0.1");
+        direccion.sin_addr.s_addr = inet_addr(argv[1]);
         printf("--------CLIENTE QUE PIDE IMAGEN -----p2-----------\n");
         
         setFileData("death_note_p2.log","0");
@@ -133,7 +137,7 @@ int main(int argc, char** argv) {
 
             direccion.sin_family = AF_INET;
             direccion.sin_port = htons(3393);
-            direccion.sin_addr.s_addr = inet_addr("127.0.0.1");
+            direccion.sin_addr.s_addr = inet_addr(argv[1]);
             printf("--------CLIENTE QUE PIDE BORRAR IMAGEN----------------\n");
 
             if (connect(sock, (struct sockaddr*) &direccion, sizeof (direccion)) < 0) {//conectando con servidor
