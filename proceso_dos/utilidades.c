@@ -439,16 +439,6 @@ int send_image(int socket,char *name) {
     fseek(picture, 0, SEEK_SET);
     printf("Total Picture size: %i\n", size);
     
-    //send SI
-    char mensaje_e[] = "SI";
-    send(socket, mensaje_e, sizeof (mensaje_e), 0);
-    
-    char mensaje_r[10];
-    if (recv(socket, mensaje_r, sizeof (mensaje_r), 0) == -1)
-        return;
-
-    printf("%s", mensaje_r);
-    
     //Send Picture Size
     printf("Sending Picture Size\n");
     write(socket, (void *) &size, sizeof (int));
